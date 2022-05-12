@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.WeatherFragment">
+
+    <TextView
+        android:paddingTop="15dp"
+        android:id="@+id/textCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kyiv"
+        android:textAlignment="center"
+        android:textSize="35dp" />
+
+    <TextView
+        android:paddingTop="10dp"
+        android:id="@+id/textWeather"
+        tools:text="Cloudy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="25dp" />
+
+    <TextView
+        android:paddingTop="15dp"
+        tools:text="75"
+
+        android:id="@+id/textTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="40dp" />
+
+
+    <TextView
+        android:paddingStart="5dp"
+        android:id="@+id/textLastUpdated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Last updated: 12:20"
+        android:textAlignment="viewStart"
+        android:textSize="10dp" />
+
+
+</LinearLayout>
