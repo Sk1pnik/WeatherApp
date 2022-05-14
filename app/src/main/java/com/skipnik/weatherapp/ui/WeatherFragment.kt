@@ -11,7 +11,10 @@ import androidx.fragment.app.viewModels
 import com.skipnik.weatherapp.R
 import com.skipnik.weatherapp.data.PreferenceManager
 import com.skipnik.weatherapp.data.TemperatureScale
+import com.skipnik.weatherapp.data.database.toCelsius
+import com.skipnik.weatherapp.data.database.toFahrenheit
 import com.skipnik.weatherapp.databinding.FragmentWeatherBinding
+import com.skipnik.weatherapp.util.Resource
 import com.skipnik.weatherapp.util.onQueryTextSubmit
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,56 +35,57 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
         binding.apply {
 
-
-            viewModel.currentCity.observe(viewLifecycleOwner) { city ->
-                textCity.text = city.name
-                viewModel.temperatureScale.observe(viewLifecycleOwner) { temperatureScale ->
-                    when (temperatureScale) {
-                        TemperatureScale.CELSIUS -> textTemperature.text =
-                            (city.main.temp - 273).toInt().toString() + "\u2103"
-                        TemperatureScale.FAHRENHEIT -> textTemperature.text =
-                            (1.8 * (city.main.temp - 273) + 32).toInt().toString() + "\u2109"
+            viewModel.currentCity.observe(viewLifecycleOwner) { result ->
+                if (result.data != null) {
+                    textCity.text = result.data.name
+                    viewModel.temperatureScale.observe(viewLifecycleOwner) { temperatureScale ->
+                        when (temperatureScale) {
+                            TemperatureScale.CELSIUS -> textTemperature.text =
+                                result.data.toCelsius()
+                            TemperatureScale.FAHRENHEIT -> textTemperature.text =
+                                result.data.toFahrenheit()
+                        }
+                        textWeather.text = result.data.weatherDescription
                     }
-                    textWeather.text = city.weather[0].description
                 }
             }
             setHasOptionsMenu(true)
         }
     }
 
-        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-            inflater.inflate(R.menu.menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
 
-            val searchItem = menu.findItem(R.id.action_search)
-            searchView = searchItem.actionView as SearchView
+        val searchItem = menu.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
 
-            searchView.onQueryTextSubmit {
-                viewModel.onCityChanged(it)
-                searchView.clearFocus()
+        searchView.onQueryTextSubmit {
+            viewModel.onCityChanged(it)
+            searchView.clearFocus()
 
-            }
-        }
-
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            return when (item.itemId) {
-                R.id.celsius -> {
-                    viewModel.onTemperatureScaleChanged(TemperatureScale.CELSIUS)
-
-                    true
-                }
-                R.id.fahrenheit -> {
-                    viewModel.onTemperatureScaleChanged(TemperatureScale.FAHRENHEIT)
-
-                    true
-                }
-                else -> super.onOptionsItemSelected(item)
-            }
-        }
-
-
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-            searchView.setOnQueryTextListener(null)
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.celsius -> {
+                viewModel.onTemperatureScaleChanged(TemperatureScale.CELSIUS)
+
+                true
+            }
+            R.id.fahrenheit -> {
+                viewModel.onTemperatureScaleChanged(TemperatureScale.FAHRENHEIT)
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        searchView.setOnQueryTextListener(null)
+    }
+}

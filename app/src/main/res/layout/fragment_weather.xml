@@ -10,42 +10,40 @@
     tools:context=".ui.WeatherFragment">
 
     <TextView
-        android:paddingTop="15dp"
         android:id="@+id/textCity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kyiv"
+        android:paddingTop="15dp"
+        tools:text="Kyiv"
         android:textAlignment="center"
         android:textSize="35dp" />
 
     <TextView
-        android:paddingTop="10dp"
-        android:id="@+id/textWeather"
-        tools:text="Cloudy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="25dp" />
-
-    <TextView
-        android:paddingTop="15dp"
-        tools:text="75"
-
         android:id="@+id/textTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="15dp"
         android:textAlignment="center"
-        android:textSize="40dp" />
-
+        android:textSize="40dp"
+        tools:text="75" />
 
     <TextView
-        android:paddingStart="5dp"
+        android:id="@+id/textWeather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        tools:text="Cloudy" />
+
+    <TextView
         android:id="@+id/textLastUpdated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Last updated: 12:20"
+        android:paddingStart="5dp"
         android:textAlignment="viewStart"
-        android:textSize="10dp" />
+        android:textSize="10dp"
+        tools:text="Last updated: 12:20" />
 
 
 </LinearLayout>
